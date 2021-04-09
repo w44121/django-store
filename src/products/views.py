@@ -14,3 +14,13 @@ from .serializers import (
 class ProdcutList(generics.ListAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer 
+
+
+class CategoryList(generics.ListAPIView):
+    queryset = Product.objects.all()
+    serializer_class = CategorySerializer 
+
+
+class ProducerList(generics.ListAPIView):
+    queryset = Product.objects.all()
+    serializer_class = ProducerSerializer 
