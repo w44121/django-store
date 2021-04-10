@@ -8,6 +8,10 @@ from .models import (
 
 admin.site.register([
     Producer,
-    Product,
     Category,
 ])
+
+@admin.register(Product)
+class ProductAdmin(admin.ModelAdmin):
+    list_display = ['title', 'category', 'price', 'amount']
+    list_editable = ['price', 'amount']
