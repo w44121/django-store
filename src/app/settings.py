@@ -148,3 +148,6 @@ else:
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+# sessions keys
+CART_SESSION_ID = 'cart'
