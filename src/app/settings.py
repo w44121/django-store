@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'corsheaders',
 
     'products',
+    'users',
 ]
 
 MIDDLEWARE = [
@@ -67,6 +68,8 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'app.urls'
+
+AUTH_USER_MODEL = 'users.User'
 
 TEMPLATES = [
     {
