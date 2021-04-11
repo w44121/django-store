@@ -3,11 +3,12 @@ from rest_framework import views
 from .cart import Cart
 from products.models import Product
 
+
 class CartView(views.APIView):
     def get(self, request):
         cart = Cart(request)
         return Response(cart.cart)
-    
+
     def delete(self, request):
         cart = Cart(request)
         cart.clear()
