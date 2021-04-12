@@ -7,7 +7,12 @@ from products.models import Product
 class CartView(views.APIView):
     def get(self, request):
         cart = Cart(request)
-        return Response(cart.cart)
+        data = {
+            'cart': cart.cart,
+            'total quantity': cart.get_count(),
+            'total sum': cart.get_sum(),
+       }
+        return Response(data)
 
     def delete(self, request):
         cart = Cart(request)

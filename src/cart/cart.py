@@ -1,5 +1,6 @@
 from django.conf import settings
 from products.models import Product
+from decimal import Decimal
 
 
 class Cart:
@@ -18,7 +19,7 @@ class Cart:
                 'price': str(product.price)
             }
         else:
-            self.cart[product_id][quantity] += quantity
+            self.cart[product_id]['quantity'] += quantity
         self.save()
 
     def remove_item(self, product):
@@ -27,13 +28,19 @@ class Cart:
             del self.cart[product_id]
         self.save()
 
-    def save(self):
-        self.session[settings.CART_SESSION_ID] = self.cart
-
     def clear(self):
         self.cart = {}
         self.save()
 
+    def save(self):
+        self.session[settings.CART_SESSION_ID] = self.cart
+    
+    def get_count(self):
+        return sum(x['quantity'] for x in self.cart.values())
+
+    def get_sum(self):
+        return sum(Decimal(x['price']) * x['quantity'] for x in self.cart.values())
+
     def __iter__(self):
-        for item in self.cart:
+        for item in self.cart.items():
             yield item
