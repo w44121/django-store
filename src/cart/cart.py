@@ -34,7 +34,7 @@ class Cart:
 
     def save(self):
         self.session[settings.CART_SESSION_ID] = self.cart
-    
+
     def get_count(self):
         return sum(x['quantity'] for x in self.cart.values())
 
