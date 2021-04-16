@@ -15,7 +15,7 @@ class OrderView(views.APIView):
 
     def post(self, request):
         user = request.user
-        cart = Cart(request)
+        cart = Cart(request.session)
         order = OrderCreater(user=user, cart=cart).create_new()
         return Response(status=status.HTTP_201_CREATED)
 

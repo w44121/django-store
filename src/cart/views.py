@@ -6,7 +6,7 @@ from products.models import Product
 
 class CartView(views.APIView):
     def get(self, request):
-        cart = Cart(request)
+        cart = Cart(request.session)
         data = {
             'cart': cart.cart,
             'total quantity': cart.get_count(),
@@ -15,20 +15,20 @@ class CartView(views.APIView):
         return Response(data)
 
     def delete(self, request):
-        cart = Cart(request)
+        cart = Cart(request.session)
         cart.clear()
         return Response(cart.cart)
 
 
 class CartDetailView(views.APIView):
     def post(self, request, product_id):
-        cart = Cart(request)
+        cart = Cart(request.session)
         product = Product.objects.get(pk=product_id)
         cart.append_item(product)
         return Response()
 
     def delete(self, request, product_id):
-        cart = Cart(request)
+        cart = Cart(request.session)
         product = Product.objects.get(pk=product_id)
         cart.remove_item(product)
         return Response(cart.cart)
