@@ -27,7 +27,7 @@ class SelfUserView(views.APIView):
             user = User.objects.get(pk=request.user.pk)
             serializer = UserSerializer(user)
             return Response(serializer.data, status=status.HTTP_200_OK)
-        except _:
+        except _:  # noqa F812
             return Response(serializer.errors, status=status.HTTP_401_UNAUTHORIZED)
 
 

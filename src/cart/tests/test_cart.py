@@ -1,8 +1,7 @@
 import pytest
 from cart.cart import Cart
-from products.tests.conftest import (
-    product, category, producer
-)
+from products.tests.conftest import product, category, producer  # noqa: F401
+
 
 def test_create_cart(session):
     cart = Cart(session)
@@ -15,7 +14,7 @@ def test_add_product_in_cart(session, product):
     cart = Cart(session)
     cart.append_item(product)
 
-    assert cart.cart.get('1') != None
+    assert cart.cart.get('1') is not None
     assert len(cart.cart) == 1
     assert cart.cart['1'] == {'quantity': 1, 'price': '100500'}
 
@@ -30,5 +29,5 @@ def test_remove_product_from_cart(session, product):
     cart.append_item(product)
     cart.remove_item(product)
 
-    assert cart.cart.get('1') == None
+    assert cart.cart.get('1') is None
     assert len(cart.cart) == 0

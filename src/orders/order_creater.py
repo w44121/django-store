@@ -1,4 +1,3 @@
-from cart.cart import Cart
 from .models import OrderProduct, Order
 from products.models import Product
 
