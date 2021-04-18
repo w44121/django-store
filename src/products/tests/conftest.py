@@ -25,6 +25,7 @@ def producer():
 @pytest.fixture
 def product(category, producer):
     return Product.objects.create(
+        id=1,
         title='i7 7700',
         description='i7 7700 description',
         category=category,
