@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.utils.html import mark_safe
 from .models import (
     Producer,
     Product,
@@ -14,5 +15,10 @@ admin.site.register([
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ['title', 'category', 'price', 'amount']
+    def show_image(self, obj):
+        return mark_safe(f'<img src="{obj.image.url}" width="100" height="100" />')
+
+    show_image.short_description = 'image'
+
+    list_display = ['title', 'category', 'producer', 'show_image', 'price', 'amount']
     list_editable = ['price', 'amount']
