@@ -20,7 +20,7 @@ class Category(models.Model):
 class Product(models.Model):
     title = models.CharField(max_length=200)
     description = models.TextField()
-    image = models.ImageField(default='cpu.jpg')
+    image = models.ImageField(default='no_image.png')  # default image on back?
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='products')
     producer = models.ForeignKey(Producer, on_delete=models.CASCADE, related_name='products')
     characteristics = models.JSONField()
