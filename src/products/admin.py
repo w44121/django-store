@@ -21,4 +21,5 @@ class ProductAdmin(admin.ModelAdmin):
     show_image.short_description = 'image'
 
     list_display = ['title', 'category', 'producer', 'show_image', 'price', 'amount']
+    search_fields = ['title', 'category__title']
     list_editable = ['price', 'amount']
