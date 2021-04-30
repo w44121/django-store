@@ -16,8 +16,9 @@ class OrderView(views.APIView):
     def post(self, request):
         user = request.user
         cart = Cart(request.session)
-        OrderCreater(user=user, cart=cart).create_new()
-        return Response(status=status.HTTP_201_CREATED)
+        order = OrderCreater(user=user, cart=cart).create_new()
+        serializer = OrderSerializer(order)
+        return Response(data=serializer.data, status=status.HTTP_201_CREATED)
 
     def delete(self, request):
         orders = Order.objects.filter(user=request.user)
