@@ -36,3 +36,19 @@ def product(category, producer):
         price=100500,
         amount=100,
     )
+
+
+@pytest.fixture
+def product2(category, producer):
+    return Product.objects.create(
+        id=2,
+        title='r5 5600',
+        description='r5 5600 description',
+        category=category,
+        producer=producer,
+        characteristics={
+            'cores': 8
+        },
+        price=100500,
+        amount=100,
+    )
