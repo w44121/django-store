@@ -5,6 +5,9 @@ from products.models import Product
 
 
 class OrderProduct(models.Model):
+    """
+    Adjacent model for store product and his quantity.
+    """
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='order_pruducts')
     quantity = models.IntegerField()
 
@@ -21,4 +24,4 @@ class Order(TimeStampedModel):
     is_deleted = models.BooleanField(default=False)
 
     def __str__(self):
-        return f'{self.user} {self.total_price} {self.is_paid} {self.is_active}'
+        return f'{self.id} {self.user} {self.total_price} {self.is_paid} {self.is_active}'
