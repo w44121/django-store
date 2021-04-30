@@ -33,6 +33,7 @@ class Cart:
         self.save()
 
     def save(self):
+        self.session.modified = True
         self.session[settings.CART_SESSION_ID] = self.cart
 
     def get_count(self):
