@@ -3,6 +3,7 @@ from cart.cart import Cart
 from products.tests.conftest import product, category, producer  # noqa: F401
 
 
+@pytest.mark.django_db
 def test_create_cart(session):
     cart = Cart(session)
 
