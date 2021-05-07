@@ -11,7 +11,7 @@ from .serializers import (
     CategorySerializer,
     ProductSerializer,
 )
-from .controller import WishListSession
+from .controller import get_wish_list
 
 
 class ProdcutList(generics.ListAPIView):
@@ -31,25 +31,25 @@ class ProducerList(generics.ListAPIView):
 
 class WishListView(views.APIView):
     def get(self, request):
-        wls = WishListSession(request.session)
-        products = Product.objects.filter(id__in=[id for id in wls])
+        wish_list = get_wish_list(request)
+        products = wish_list.get_products()
         serializer = ProductSerializer(products, many=True)
         return Response(data=serializer.data, status=status.HTTP_200_OK)
 
     def delete(self, request):
-        WishListSession(request.session).clear()
+        get_wish_list(request).clear()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 class WishListDetailView(views.APIView):
     def post(self, request, product_id):
-        wls = WishListSession(request.session)
+        wish_list = get_wish_list(request)
         product = Product.objects.get(pk=product_id)
-        wls.append_item(product)
+        wish_list.append_item(product)
         return Response(status=status.HTTP_201_CREATED)
 
     def delete(self, request, product_id):
-        wls = WishListSession(request.session)
+        wish_list = get_wish_list(request)
         product = Product.objects.get(pk=product_id)
-        wls.remove_item(product)
+        wish_list.remove_item(product)
         return Response(status=status.HTTP_204_NO_CONTENT)
