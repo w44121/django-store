@@ -4,6 +4,7 @@ from products.models import (
     Producer,
     Category,
 )
+from products.controller import WishListSession
 
 
 @pytest.fixture
@@ -52,3 +53,8 @@ def product2(category, producer):
         price=100500,
         amount=100,
     )
+
+
+@pytest.fixture
+def wish_list_session(session):
+    return WishListSession(session)
