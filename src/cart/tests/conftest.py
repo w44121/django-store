@@ -15,3 +15,8 @@ def cart_with_products(session):
 @pytest.fixture
 def session():
     return SessionStore()
+
+
+@pytest.fixture
+def cart(session):
+    return Cart(session)

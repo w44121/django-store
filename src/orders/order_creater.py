@@ -6,6 +6,10 @@ class ProductInCartDoesNotExistInDatabase(Exception):
     pass
 
 
+class CreateOrderWithEmptyCart(Exception):
+    pass
+
+
 class OrderCreater:
     def __init__(self, cart, user):
         self.cart = cart
@@ -15,13 +19,16 @@ class OrderCreater:
         )
 
     def _check_products(self, products):
-        return len(self.cart.cart) == len(products)
+        if len(self.cart.cart) != products.count():
+            raise ProductInCartDoesNotExistInDatabase
+        elif len(self.cart.cart) == 0:
+            raise CreateOrderWithEmptyCart
+        return True
 
     def _get_products_from_cart(self) -> list[Product]:
         products = Product.objects.filter(id__in=[x[0] for x in self.cart])
         if self._check_products(products):
             return products
-        raise ProductInCartDoesNotExistInDatabase
 
     def create_new(self):
         for product in self._get_products_from_cart():

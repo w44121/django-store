@@ -1,6 +1,6 @@
 import pytest
-from orders.order_creater import OrderCreater, ProductInCartDoesNotExistInDatabase
-from cart.tests.conftest import cart_with_products, session  # noqa: F401
+from orders.order_creater import OrderCreater, ProductInCartDoesNotExistInDatabase, CreateOrderWithEmptyCart
+from cart.tests.conftest import cart, cart_with_products, session  # noqa: F401
 from products.tests.conftest import product, product2, category, producer  # noqa: F401
 from users.tests.conftest import user  # noqa: F401
 
@@ -23,4 +23,11 @@ def test_order_creater(cart_with_products, user, product, product2):
 def test_order_creater_ProductInCartDoesNotExistInDatabase(cart_with_products, user):
     with pytest.raises(ProductInCartDoesNotExistInDatabase):
         order = OrderCreater(cart=cart_with_products, user=user)
+        order.create_new()
+
+
+@pytest.mark.django_db
+def test_order_creater_CreateOrderWithEmptyCart(cart, user):
+    with pytest.raises(CreateOrderWithEmptyCart):
+        order = OrderCreater(cart=cart, user=user)
         order.create_new()
