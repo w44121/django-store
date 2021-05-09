@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'debug_toolbar',
     'corsheaders',
     'django_extensions',
+    'django_filters',
 
     'products',
     'users',
@@ -100,6 +101,9 @@ DATABASES = {
     'default': env.db()
 }
 
+REST_FRAMEWORK = {
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators

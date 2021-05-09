@@ -13,6 +13,7 @@ django-cors-headers==3.7.0
 django-debug-toolbar==3.2
 django-environ==0.4.5
 django-extensions==3.1.2
+django-filter==2.4.0
 djangorestframework==3.12.4
 docopt==0.6.2
 execnet==1.8.0
