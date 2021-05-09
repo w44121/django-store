@@ -21,10 +21,10 @@ from .controller import get_wish_list
 class ProductList(generics.ListAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
-    filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
-    filterset_fields = ['category', 'producer',]
-    search_fields = ['title',]
-    ordering_fields = ['price']
+    filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter, ]
+    filterset_fields = ['category', 'producer', ]
+    search_fields = ['title', ]
+    ordering_fields = ['price', ]
 
 
 class CategoryList(generics.ListAPIView):
