@@ -1,4 +1,5 @@
 from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
 from rest_framework import views
 from rest_framework import status
 from .models import Order
@@ -8,6 +9,8 @@ from cart.cart import Cart
 
 
 class OrderView(views.APIView):
+    permission_classes = [IsAuthenticated,]
+
     def get(self, request):
         orders = Order.objects.filter(user=request.user, is_deleted=False)
         serializer = OrderSerializer(orders, many=True)
@@ -29,6 +32,8 @@ class OrderView(views.APIView):
 
 
 class OrderDetailView(views.APIView):
+    permission_classes = [IsAuthenticated,]
+
     def get(self, request, order_id):
         order = Order.objects.get(pk=order_id, is_deleted=False)
         serializer = OrderSerializer(data=order)
