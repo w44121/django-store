@@ -4,7 +4,7 @@ from users.models import User
 
 class Producer(models.Model):
     title = models.CharField(max_length=100)
-    description = models.TextField()
+    description = models.TextField(blank=True, null=True)
 
     def __str__(self):
         return str(self.title).capitalize()
@@ -12,7 +12,7 @@ class Producer(models.Model):
 
 class Category(models.Model):
     title = models.CharField(max_length=100)
-    description = models.TextField()
+    description = models.TextField(blank=True, null=True)
 
     def __str__(self):
         return str(self.title).capitalize()
@@ -20,13 +20,15 @@ class Category(models.Model):
 
 class Product(models.Model):
     title = models.CharField(max_length=200)
-    description = models.TextField()
+    description = models.TextField(blank=True, null=True)
     image = models.ImageField(default='no_image.png')  # default image on back?
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='products')
     producer = models.ForeignKey(Producer, on_delete=models.CASCADE, related_name='products')
-    characteristics = models.JSONField()
+    characteristics = models.JSONField(default=dict)
     price = models.DecimalField(max_digits=10, decimal_places=2)
     amount = models.IntegerField()
+    released = models.BooleanField(default=False)
+    release_date = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return f'{self.category} {self.producer} {self.title}'
