@@ -16,15 +16,19 @@ from .serializers import (
     ProductSerializer,
 )
 from .controller import get_wish_list
+from .filters import ProductFilter
 
 
 class ProductList(generics.ListAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter, ]
-    filterset_fields = ['category', 'producer', ]
+    filterset_class = ProductFilter
     search_fields = ['title', ]
-    ordering_fields = ['price', ]
+    ordering_fields = ['price', 'release_date', ]
+
+    def get_queryset(self):
+        return self.queryset.filter(released=True)
 
 
 class CategoryList(generics.ListAPIView):
