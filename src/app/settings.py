@@ -191,3 +191,9 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # sessions keys
 CART_SESSION_ID = 'cart'
 WISHLIST_SESSION_ID = 'wishlist'
+
+# celery settings
+CELERY_BROKER_URL = env("REDIS_URL")
+
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERILIZER = 'json'
