@@ -197,3 +197,8 @@ CELERY_BROKER_URL = env("REDIS_URL")
 
 CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERILIZER = 'json'
+
+
+# develop console email backend
+if DEBUG:
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
