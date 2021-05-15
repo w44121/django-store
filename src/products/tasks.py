@@ -1,5 +1,5 @@
 from app.celery import app
-from products.models import SubscriptionProductArrival, Product
+from products.models import Product
 from users.models import User
 
 import logging
