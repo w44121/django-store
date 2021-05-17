@@ -5,7 +5,7 @@ from .views import (
     ProducerList,
     WishListView,
     WishListDetailView,
-    SubscribeView,
+    SubscribeDetailView,
 )
 
 
@@ -17,5 +17,5 @@ urlpatterns = [
     path('wishlist/', WishListView.as_view()),
     path('wishlist/<int:product_id>/', WishListDetailView.as_view()),
 
-    path('products/subscribe/', SubscribeView.as_view()),
+    path('products/<int:product_id>/subscribe/', SubscribeDetailView.as_view()),
 ]

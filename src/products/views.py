@@ -18,7 +18,9 @@ from .serializers import (
 )
 from .controller import get_wish_list
 from .filters import ProductFilter
-from .subscriptions import subscribe_to_product_arrival_notification
+from .subscriptions import (
+    subscribe_to_product_arrival_notification,
+)
 
 
 class ProductList(generics.ListAPIView):
@@ -69,15 +71,13 @@ class WishListDetailView(views.APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-class SubscribeView(views.APIView):
+class SubscribeDetailView(views.APIView):
     permission_classes = [IsAuthenticated, ]
 
-    def post(self, request):
+    def post(self, request, product_id):
         user = request.user
-        product_id = request.data.get('product_id')
-        email = request.data.get('email')
         try:
-            subscribe_to_product_arrival_notification(user, product_id, email)
+            subscribe_to_product_arrival_notification(user, product_id)
         except Exception:
             return Response(status=status.HTTP_400_BAD_REQUEST)
         return Response(status=status.HTTP_201_CREATED)

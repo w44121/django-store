@@ -2,6 +2,9 @@ from django.core.mail import send_mail
 from app.celery import app
 from products.models import Product
 from users.models import User
+from products.subscriptions import (
+    unsubscribe_from_product_arrival_notification
+)
 
 import logging
 
@@ -33,3 +36,4 @@ def send_product_arrival_notification(user_id, product_id) -> None:
         user=user,
         product=product,
     )
+    unsubscribe_from_product_arrival_notification(user, product_id)
