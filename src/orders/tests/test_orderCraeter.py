@@ -1,5 +1,5 @@
 import pytest
-from orders.order_creater import OrderCreater, ProductInCartDoesNotExistInDatabase, CreateOrderWithEmptyCart
+from orders.controller import OrderCreater, ProductInCartDoesNotExistInDatabase, CreateOrderWithEmptyCart
 from cart.tests.conftest import cart, cart_with_products, session  # noqa: F401
 from products.tests.conftest import product, product2, category, producer  # noqa: F401
 from users.tests.conftest import user  # noqa: F401
