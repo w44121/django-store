@@ -22,7 +22,7 @@ def subscribe_to_product_arrival_notification(user, product_id: int, email=None)
     except Exception:
         pass
 
-    if not product.is_stock:
+    if product.is_stock:
         logger.warning(f'user {user.id} attempting to subscribe to a product in stock {product_id}')
         return
 
