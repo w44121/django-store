@@ -20,6 +20,7 @@ from .controller import get_wish_list
 from .filters import ProductFilter
 from .subscriptions import (
     subscribe_to_product_arrival_notification,
+    unsubscribe_from_product_arrival_notification,
 )
 
 
@@ -81,3 +82,11 @@ class SubscribeDetailView(views.APIView):
         except Exception:
             return Response(status=status.HTTP_400_BAD_REQUEST)
         return Response(status=status.HTTP_201_CREATED)
+
+    def delete(seld, request, product_id):
+        user = request.user
+        try:
+            unsubscribe_from_product_arrival_notification(user, product_id)
+        except Exception:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+        return Response(status=status.HTTP_204_NO_CONTENT)
