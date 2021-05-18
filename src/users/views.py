@@ -33,8 +33,8 @@ class SelfUserView(views.APIView):
 
 class UserLogInView(views.APIView):
     def post(self, request):
-        username = request.data['username']
-        password = request.data['password']
+        username = request.data.get('username')
+        password = request.data.get('password')
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
