@@ -36,6 +36,11 @@ class ProductList(generics.ListAPIView):
         return self.queryset.filter(released=True)
 
 
+class ProductRetrieveView(generics.RetrieveAPIView):
+    queryset = Product.objects.filter(released=True)
+    serializer_class = ProductSerializer
+
+
 class CategoryList(generics.ListAPIView):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
