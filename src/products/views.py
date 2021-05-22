@@ -24,7 +24,7 @@ from .subscriptions import (
 )
 
 
-class ProductList(generics.ListAPIView):
+class ProductListView(generics.ListAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter, ]
@@ -41,12 +41,12 @@ class ProductRetrieveView(generics.RetrieveAPIView):
     serializer_class = ProductSerializer
 
 
-class CategoryList(generics.ListAPIView):
+class CategoryListView(generics.ListAPIView):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
 
 
-class ProducerList(generics.ListAPIView):
+class ProducerListView(generics.ListAPIView):
     queryset = Producer.objects.all()
     serializer_class = ProducerSerializer
 
