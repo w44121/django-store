@@ -88,7 +88,5 @@ class WishListSession(WishList):
 
 def get_wish_list(request) -> WishList:
     if not request.user.is_authenticated:
-        print('WishListSession')
         return WishListSession(request.session)
-    print('WishListDataBase')
     return WishListDataBase(request.user)
