@@ -83,6 +83,5 @@ def cart(session):
 
 
 @pytest.fixture
-def order(cart_with_products, user,  product, product2):
+def order(cart_with_products, user, product, product2):
     return OrderCreator(cart_with_products, user).create_new()
-

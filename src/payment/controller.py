@@ -1,7 +1,6 @@
 from django.db import transaction as transaction_db, IntegrityError, DatabaseError
 from .models import Wallet, Transaction
-from orders.models import Order, OrderProduct
-from products.models import Product
+from orders.models import Order
 from users.models import User
 from decimal import Decimal
 import logging
@@ -40,7 +39,8 @@ class WalletController:
                     user=self.user,
                     amount=order.total_price,
                     order=order,
-                ).save()
+                )
+                transaction.save()
                 self.wallet.balance -= order.total_price
                 self.wallet.save()
         else:
@@ -49,7 +49,7 @@ class WalletController:
     def up_balance(self, amount: Decimal) -> None:
         try:
             logger.info(
-                f'start make transaction for up wallet balance ' + \
+                f'start make transaction for up wallet balance '
                 f'for user {self.user.id} with amount: {amount}'
             )
             with transaction_db.atomic():
@@ -63,11 +63,11 @@ class WalletController:
                 self.wallet.balance += Decimal(str(amount))
                 self.wallet.save()
                 logger.info(
-                    f'successfully transaction {transaction.id}' + \
+                    f'successfully transaction {transaction.id}'
                     f'for user {self.user.id} with amount: {amount}'
                 )
         except IntegrityError:
-            logger.error(f'fail make transaction for up wallet balance')
+            logger.error('fail make transaction for up wallet balance')
 
 
 class OrderPayment:

@@ -48,7 +48,7 @@ def test_wallet_up_balance(user, wallet):
 def test_order_payment(user, order, wallet, product, product2):
     assert order.total_price == 500
     assert wallet.balance == Decimal('1000.00')
-    
+
     order_pay = OrderPayment(user=user, order=order)
 
     order_pay.pay()
