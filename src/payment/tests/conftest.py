@@ -1,5 +1,5 @@
 from django.contrib.sessions.backends.db import SessionStore
-from orders.controller import OrderCreater
+from orders.controller import OrderCreator
 from cart.cart import Cart
 from products.models import Product, Category, Producer
 from users.models import User
@@ -84,5 +84,5 @@ def cart(session):
 
 @pytest.fixture
 def order(cart_with_products, user,  product, product2):
-    return OrderCreater(cart_with_products, user).create_new()
+    return OrderCreator(cart_with_products, user).create_new()
 

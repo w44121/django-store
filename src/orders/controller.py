@@ -10,7 +10,7 @@ class CreateOrderWithEmptyCart(Exception):
     pass
 
 
-class OrderCreater:
+class OrderCreator:
     def __init__(self, cart, user):
         self.cart = cart
         self.order = Order.objects.create(

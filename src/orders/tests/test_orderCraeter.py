@@ -1,13 +1,13 @@
 import pytest
-from orders.controller import OrderCreater, ProductInCartDoesNotExistInDatabase, CreateOrderWithEmptyCart
+from orders.controller import OrderCreator, ProductInCartDoesNotExistInDatabase, CreateOrderWithEmptyCart
 from cart.tests.conftest import cart, cart_with_products, session  # noqa: F401
 from products.tests.conftest import product, product2, category, producer  # noqa: F401
 from users.tests.conftest import user  # noqa: F401
 
 
 @pytest.mark.django_db
-def test_order_creater(cart_with_products, user, product, product2):
-    order = OrderCreater(cart=cart_with_products, user=user).create_new()
+def test_order_creator(cart_with_products, user, product, product2):
+    order = OrderCreator(cart=cart_with_products, user=user).create_new()
 
     assert order.user.id == 1
     assert order.user.username == 'test_user'
@@ -20,14 +20,14 @@ def test_order_creater(cart_with_products, user, product, product2):
 
 
 @pytest.mark.django_db
-def test_order_creater_ProductInCartDoesNotExistInDatabase(cart_with_products, user):
+def test_order_creator_ProductInCartDoesNotExistInDatabase(cart_with_products, user):
     with pytest.raises(ProductInCartDoesNotExistInDatabase):
-        order = OrderCreater(cart=cart_with_products, user=user)
+        order = OrderCreator(cart=cart_with_products, user=user)
         order.create_new()
 
 
 @pytest.mark.django_db
-def test_order_creater_CreateOrderWithEmptyCart(cart, user):
+def test_order_creator_CreateOrderWithEmptyCart(cart, user):
     with pytest.raises(CreateOrderWithEmptyCart):
-        order = OrderCreater(cart=cart, user=user)
+        order = OrderCreator(cart=cart, user=user)
         order.create_new()

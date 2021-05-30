@@ -4,7 +4,7 @@ from rest_framework import views
 from rest_framework import status
 from .models import Order
 from .serializers import OrderSerializer
-from .controller import OrderCreater
+from .controller import OrderCreator
 from cart.cart import Cart
 
 
@@ -19,7 +19,7 @@ class OrderView(views.APIView):
     def post(self, request):
         user = request.user
         cart = Cart(request.session)
-        order = OrderCreater(user=user, cart=cart).create_new()
+        order = OrderCreator(user=user, cart=cart).create_new()
         serializer = OrderSerializer(order)
         return Response(data=serializer.data, status=status.HTTP_201_CREATED)
 
