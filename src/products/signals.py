@@ -22,8 +22,8 @@ def is_product_arrived(product: Product) -> bool:
 @receiver(pre_save, weak=False, sender=Product)
 def product_pre_save(sender, instance, *args, **kwargs) -> None:
     if is_product_arrived(instance):
-        for subcribe in SubscriptionProductArrival.objects.filter(product=instance):
+        for subscribe in SubscriptionProductArrival.objects.filter(product=instance):
             send_product_arrival_notification.apply_async(kwargs={
-                'user_id': subcribe.user.id,
+                'user_id': subscribe.user.id,
                 'product_id': instance.id,
             })

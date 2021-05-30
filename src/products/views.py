@@ -88,7 +88,7 @@ class SubscribeDetailView(views.APIView):
             return Response(status=status.HTTP_400_BAD_REQUEST)
         return Response(status=status.HTTP_201_CREATED)
 
-    def delete(seld, request, product_id):
+    def delete(self, request, product_id):
         user = request.user
         try:
             unsubscribe_from_product_arrival_notification(user, product_id)
