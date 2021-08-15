@@ -17,11 +17,11 @@ def test_add_product_cart(session, product):
 
     assert cart.cart.get('1') is not None
     assert len(cart.cart) == 1
-    assert cart.cart['1'] == {'quantity': 1, 'price': '100500'}
+    assert cart.cart['1'] == {'quantity': 1, 'product_title': 'i7 7700', 'price': '100500'}
 
     cart.append_item(product)
 
-    assert cart.cart['1'] == {'quantity': 2, 'price': '100500'}
+    assert cart.cart['1'] == {'quantity': 2, 'product_title': 'i7 7700', 'price': '100500'}
 
 
 @pytest.mark.django_db
