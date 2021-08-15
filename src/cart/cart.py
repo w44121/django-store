@@ -15,6 +15,7 @@ class Cart:
         product_id = str(product.id)
         if product_id not in self.cart:
             self.cart[product_id] = {
+                'product_title': str(product.title),
                 'quantity': quantity,
                 'price': str(product.price)
             }
