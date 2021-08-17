@@ -19,10 +19,17 @@ class Category(models.Model):
         return str(self.title).capitalize()
 
 
+class Image(models.Model):
+    image = models.ImageField(default='no_image.png')
+
+    def __str__(self):
+        return self.image.url
+
+
 class Product(models.Model):
     title = models.CharField(max_length=200)
     description = models.TextField(blank=True, null=True)
-    image = models.ImageField(default='no_image.png')  # default image on back?
+    image = models.ManyToManyField(Image)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='products')
     producer = models.ForeignKey(Producer, on_delete=models.CASCADE, related_name='products')
     characteristics = models.JSONField(default=dict)

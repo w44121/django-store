@@ -3,6 +3,7 @@ from .models import (
     Producer,
     Category,
     Product,
+    Image,
 )
 
 
@@ -18,6 +19,12 @@ class CategorySerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class ImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Image
+        fields = '__all__'
+
+
 class ProductSerializer(serializers.ModelSerializer):
     producer = serializers.SlugRelatedField(
         read_only=True,
@@ -27,6 +34,7 @@ class ProductSerializer(serializers.ModelSerializer):
         read_only=True,
         slug_field='title',
     )
+    image = ImageSerializer(read_only=True, many=True)
 
     class Meta:
         model = Product
