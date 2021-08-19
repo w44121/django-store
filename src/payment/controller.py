@@ -1,5 +1,7 @@
-from django.db import transaction as transaction_db, IntegrityError, DatabaseError
+from django.db import transaction, IntegrityError, DatabaseError
+from django.db.transaction import TransactionManagementError
 from .models import Wallet, Transaction
+from .models import Transaction as Transaction_model
 from orders.models import Order
 from users.models import User
 from decimal import Decimal
@@ -33,14 +35,14 @@ class WalletController:
 
     def reduce_balance(self, order: Order) -> None:
         if self.balance - order.total_price > 0:
-            with transaction_db.atomic():
-                transaction = Transaction(
+            with transaction.atomic():
+                transaction_instance = Transaction_model(
                     wallet=self.wallet,
                     user=self.user,
                     amount=order.total_price,
                     order=order,
                 )
-                transaction.save()
+                transaction_instance.save()
                 self.wallet.balance -= order.total_price
                 self.wallet.save()
         else:
@@ -52,21 +54,21 @@ class WalletController:
                 f'start make transaction for up wallet balance '
                 f'for user {self.user.id} with amount: {amount}'
             )
-            with transaction_db.atomic():
-                transaction = Transaction(
+            with transaction.atomic():
+                transaction_instance = Transaction_model(
                     wallet=self.wallet,
                     user=self.user,
                     amount=amount,
                     order=None,
                 )
-                transaction.save()
+                transaction_instance.save()
                 self.wallet.balance += Decimal(str(amount))
                 self.wallet.save()
                 logger.info(
-                    f'successfully transaction {transaction.id}'
+                    f'successfully transaction {transaction_instance.id}'
                     f'for user {self.user.id} with amount: {amount}'
                 )
-        except IntegrityError:
+        except TransactionManagementError:
             logger.error('fail make transaction for up wallet balance')
 
 
@@ -78,11 +80,11 @@ class OrderPayment:
 
     def pay(self) -> None:
         try:
-            with transaction_db.atomic():
+            with transaction.atomic():
                 self.wallet.reduce_balance(order=self.order)
                 order_products = self.order.products.all()
                 for order_product in order_products:
                     order_product.product.amount -= order_product.quantity
                     order_product.product.save()
-        except DatabaseError:
-            raise ImportError
+        except TransactionManagementError:
+            logger.error(f'error processing transaction with order {self.order.id}')
