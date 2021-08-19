@@ -19,5 +19,24 @@ services:
       - "8000:8000"
       depends_on:
       - db
+      - redis
       env_file:
         - ./src/app/.env
+
+    redis:
+      image: "redis:alpine"
+      container_name: 'redis'
+      hostname: redis
+
+    celery:
+      restart: always
+      build: .
+      container_name: 'celery'
+      command: celery -A app worker -B -E -l INFO
+      working_dir: /app/src
+      volumes:
+      - .:/src
+      depends_on:
+        - web
+        - redis
+        - db
