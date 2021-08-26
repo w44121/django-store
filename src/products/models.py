@@ -26,6 +26,13 @@ class Image(models.Model):
         return self.image.url
 
 
+class ProductManager(models.Manager):
+    def get_queryset(self):
+        return super(ProductManager, self).get_queryset() \
+        .select_related('producer', 'category') \
+        .prefetch_related('image')
+
+
 class Product(models.Model):
     title = models.CharField(max_length=200)
     description = models.TextField(blank=True, null=True)
@@ -38,6 +45,8 @@ class Product(models.Model):
     released = models.BooleanField(default=False)
     release_date = models.DateTimeField(auto_now=True)
 
+    objects = ProductManager()
+
     @property
     def is_stock(self) -> bool:
         return self.amount > 0
@@ -47,8 +56,8 @@ class Product(models.Model):
 
 
 class FavoriteProduct(models.Model):
-    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='favorit_products')
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='favorit_products')
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='favorite_products')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='favorite_products')
 
     def __str__(self):
         return f'{self.user}, {self.product}'

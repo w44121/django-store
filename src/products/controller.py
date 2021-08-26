@@ -40,15 +40,13 @@ class WishListDataBase(WishList):
             ).save()
 
     def remove_item(self, product) -> None:
-        FavoriteProduct.objects.filter(id=product.id).delete()
+        FavoriteProduct.objects.filter(id=product.id, user=self.user).delete()
 
     def clear(self) -> None:
         FavoriteProduct.objects.filter(user=self.user).delete()
 
     def get_products(self):
-        # it's seems equal -> need to check it
-        # FavoriteProduct.objects.filter(user=self.user).select_related('product')
-        return [x.product for x in FavoriteProduct.objects.filter(user=self.user)]
+        return Product.objects.filter(favorite_products__user=self.user)
 
 
 class WishListSession(WishList):
