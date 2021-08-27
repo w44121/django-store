@@ -18,14 +18,13 @@ class UserRegistrationView(views.APIView):
 
 class SelfUserView(views.APIView):
     """
-    Return curent authorized user.
+    Return current authorized user.
     """
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
         try:
-            user = User.objects.get(pk=request.user.pk)
-            serializer = UserSerializer(user)
+            serializer = UserSerializer(request.user)
             return Response(serializer.data, status=status.HTTP_200_OK)
         except Exception:
             return Response(serializer.errors, status=status.HTTP_401_UNAUTHORIZED)
