@@ -2,7 +2,7 @@ from products.models import Product, SubscriptionProductArrival
 import logging
 
 
-logger = logging.getLogger()
+logger = logging.getLogger(__name__)
 
 
 def subscribe_to_product_arrival_notification(user, product_id: int, email=None) -> None:

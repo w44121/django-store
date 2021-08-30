@@ -7,7 +7,7 @@ from users.models import User
 from decimal import Decimal
 import logging
 
-logger = logging.getLogger()
+logger = logging.getLogger(__name__)
 
 
 class NotEnoughFundsForTheOperation(Exception):
