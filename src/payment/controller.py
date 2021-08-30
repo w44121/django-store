@@ -1,17 +1,19 @@
 from django.db import transaction, IntegrityError, DatabaseError
 from django.db.transaction import TransactionManagementError
-from .models import Wallet, Transaction
-from .models import Transaction as Transaction_model
+from payment.models import Wallet, Transaction
+from payment.models import Transaction as Transaction_model
+from payment.errors import (
+    OrderHasAlreadyBeenPaid,
+    NotEnoughFundsForTheOperation,
+    BalanceReplenishmentWithANegativeValue,
+)
 from orders.models import Order
 from users.models import User
 from decimal import Decimal
 import logging
 
+
 logger = logging.getLogger(__name__)
-
-
-class NotEnoughFundsForTheOperation(Exception):
-    pass
 
 
 def get_wallet(user: User) -> Wallet:
@@ -49,6 +51,8 @@ class WalletController:
             raise NotEnoughFundsForTheOperation
 
     def up_balance(self, amount: Decimal) -> None:
+        if amount <= 0:
+            raise BalanceReplenishmentWithANegativeValue
         try:
             logger.info(
                 f'start make transaction for up wallet balance '
@@ -65,7 +69,7 @@ class WalletController:
                 self.wallet.balance += Decimal(str(amount))
                 self.wallet.save()
                 logger.info(
-                    f'successfully transaction {transaction_instance.id}'
+                    f'successfully transaction {transaction_instance.id} '
                     f'for user {self.user.id} with amount: {amount}'
                 )
         except TransactionManagementError:
@@ -79,9 +83,13 @@ class OrderPayment:
         self.wallet = WalletController(self.user)
 
     def pay(self) -> None:
+        if self.order.is_paid:
+            raise OrderHasAlreadyBeenPaid
         try:
             with transaction.atomic():
                 self.wallet.reduce_balance(order=self.order)
+                self.order.is_paid = True
+                self.order.save()
                 order_products = self.order.products.all()
                 for order_product in order_products:
                     order_product.product.amount -= order_product.quantity
