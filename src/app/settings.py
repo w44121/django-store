@@ -31,7 +31,7 @@ SECRET_KEY = env('SECRET_KEY', default='qwe123rty456')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env('DEBUG')
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -198,10 +198,10 @@ CART_SESSION_ID = 'cart'
 WISHLIST_SESSION_ID = 'wishlist'
 
 # celery settings
-CELERY_BROKER_URL = env("REDIS_URL")
+CELERY_BROKER_URL = env('REDIS_URL')
 
 CELERY_ACCEPT_CONTENT = ['json']
-CELERY_TASK_SERILIZER = 'json'
+CELERY_TASK_SERIALIZER = 'json'
 
 
 # develop console email backend
