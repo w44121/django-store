@@ -36,7 +36,7 @@ class OrderDetailView(views.APIView):
 
     def get(self, request, order_id):
         order = Order.objects.get(pk=order_id, is_deleted=False)
-        serializer = OrderSerializer(data=order)
+        serializer = OrderSerializer(order)
         return Response(data=serializer.data, status=status.HTTP_200_OK)
 
     def delete(self, request, order_id):
